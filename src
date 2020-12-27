@@ -1,0 +1,80 @@
+// Problem statement:
+// Find a near by duplicate number from Given Integer Array so that duplicate number is located 
+// wihin a distance less or equal k
+
+#include <iostream>
+#include<stdlib.h>
+#include<vector>
+#include<unordered_map>
+#include <exception>
+using namespace std;
+
+bool duplicateNearBy(vector<int>& num, int k){
+    int len = num.size();
+    if (len == 0) {
+        cout << "Empty array, so ther is no duplicate" << endl;
+        return false;
+    }
+    
+    unordered_map <int, int> h;
+    for (int i=0; i<len; i++){
+        
+            // if we found the key in hash table
+            if (h.find(num[i]) != h.end()){
+                if (abs(i-h[num[i]])<=k){
+                    cout << "duplicateNearByNumber: " << num[i] << endl; 
+                    return true;
+                }
+                else
+                  h[num[i]] = i;
+            }
+            
+            // did't find the key in Hash Table
+            else
+                h[num[i]] = i;
+    }
+    return false;
+}
+
+int main()
+{
+    vector<int> duplicateNumArray{};
+    int distance = 2;
+    
+    cout << "Test case 1: check empty array" << endl;
+    try{
+        if (duplicateNearBy(duplicateNumArray, distance))
+            cout << "Find Duplicate" << endl;
+        else 
+            cout << "Didn't Find Any Duplicate" << endl;
+    }
+    catch (exception& e){
+        cout<< "standard exception: " << e.what()<< endl;
+    }
+    
+    cout << "Test case 2: normal array with duplicate element" << endl;
+    vector<int> duplicateNumArray1{2, 4, 6, 5, 4, 5};
+    try{
+        if (duplicateNearBy(duplicateNumArray1, distance))
+            cout << "Find Duplicate" << endl;
+        else 
+            cout << "Didn't Find Any Duplicate" << endl;
+    }
+    catch (exception& e){
+        cout<< "standard exception: " << e.what()<< endl;
+    }
+    
+    cout << "Test case 3: normal array without duplicate element" << endl;
+    vector<int> duplicateNumArray2{1, 4, 6, 5, 2};
+    try{
+        if (duplicateNearBy(duplicateNumArray2, distance))
+            cout << "Find Duplicate" << endl;
+        else 
+            cout << "Didn't Find Any Duplicate" << endl;
+    }
+    catch (exception& e){
+        cout<< "standard exception: " << e.what()<< endl;
+    }
+     
+    return 0;
+}
